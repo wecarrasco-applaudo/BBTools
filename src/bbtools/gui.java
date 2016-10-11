@@ -5,6 +5,13 @@
  */
 package bbtools;
 
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.server.SeleniumServer;
+
 /**
  *
  * @author wcarrasco
@@ -31,7 +38,7 @@ public class gui extends javax.swing.JFrame {
         jdPublicarAnuncios = new javax.swing.JDialog();
         jLabel2 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btIniciarPublicarAnuncios = new javax.swing.JButton();
         tfTitulo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -53,6 +60,13 @@ public class gui extends javax.swing.JFrame {
         grupoFechaRestringida = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jdCredencialesPublicarAnuncio = new javax.swing.JDialog();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        tfCorreoPublicarAnuncios = new javax.swing.JTextField();
+        tfPassCrearAnuncio = new javax.swing.JPasswordField();
+        btIniciarCrearAnuncio2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -62,7 +76,12 @@ public class gui extends javax.swing.JFrame {
 
         jButton4.setText("Agregar Secciones");
 
-        jButton5.setText("Iniciar");
+        btIniciarPublicarAnuncios.setText("Iniciar");
+        btIniciarPublicarAnuncios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btIniciarPublicarAnunciosMouseClicked(evt);
+            }
+        });
 
         tfTitulo.setText("Titulo");
 
@@ -155,7 +174,7 @@ public class gui extends javax.swing.JFrame {
                             .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
                                 .addComponent(jButton4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btIniciarPublicarAnuncios, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
@@ -207,7 +226,7 @@ public class gui extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton4)
-                            .addComponent(jButton5))
+                            .addComponent(btIniciarPublicarAnuncios))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -255,6 +274,55 @@ public class gui extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(jTable1);
+
+        jLabel7.setText("Credenciales BlackBoard");
+
+        jLabel8.setText("Correo:");
+
+        jLabel9.setText("Contraseña:");
+
+        btIniciarCrearAnuncio2.setText("INICIAR");
+        btIniciarCrearAnuncio2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btIniciarCrearAnuncio2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jdCredencialesPublicarAnuncioLayout = new javax.swing.GroupLayout(jdCredencialesPublicarAnuncio.getContentPane());
+        jdCredencialesPublicarAnuncio.getContentPane().setLayout(jdCredencialesPublicarAnuncioLayout);
+        jdCredencialesPublicarAnuncioLayout.setHorizontalGroup(
+            jdCredencialesPublicarAnuncioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdCredencialesPublicarAnuncioLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(jdCredencialesPublicarAnuncioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addGap(24, 24, 24)
+                .addGroup(jdCredencialesPublicarAnuncioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jdCredencialesPublicarAnuncioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel7)
+                        .addComponent(tfCorreoPublicarAnuncios)
+                        .addComponent(tfPassCrearAnuncio, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                    .addComponent(btIniciarCrearAnuncio2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+        jdCredencialesPublicarAnuncioLayout.setVerticalGroup(
+            jdCredencialesPublicarAnuncioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdCredencialesPublicarAnuncioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addGap(55, 55, 55)
+                .addGroup(jdCredencialesPublicarAnuncioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(tfCorreoPublicarAnuncios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jdCredencialesPublicarAnuncioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(tfPassCrearAnuncio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(btIniciarCrearAnuncio2)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -355,6 +423,28 @@ public class gui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkMostrarHastaStateChanged
 
+    private void btIniciarPublicarAnunciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btIniciarPublicarAnunciosMouseClicked
+        jdCredencialesPublicarAnuncio.pack();
+        jdCredencialesPublicarAnuncio.setModal(true);
+        jdCredencialesPublicarAnuncio.setLocationRelativeTo(null);
+        jdCredencialesPublicarAnuncio.setVisible(true);
+    }//GEN-LAST:event_btIniciarPublicarAnunciosMouseClicked
+
+    private void btIniciarCrearAnuncio2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btIniciarCrearAnuncio2MouseClicked
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        WebDriver Driver = new ChromeDriver();
+        //Driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Driver.get("https://lnps.elearning.laureate.net/");
+        String correo = tfCorreoPublicarAnuncios.getText();
+        String contraseña = tfPassCrearAnuncio.getText();
+        Driver.findElement(By.id("username")).sendKeys(correo);
+        Driver.findElement(By.name("password")).sendKeys(contraseña);
+        Driver.findElement(By.id("btnLogin")).click();
+        Driver.findElement(By.id("SystemAdmin.label")).click();
+        Driver.findElement(By.id("nav_list_courses")).click();
+        System.out.println("LISTO");
+    }//GEN-LAST:event_btIniciarCrearAnuncio2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -391,6 +481,8 @@ public class gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btIniciarCrearAnuncio2;
+    private javax.swing.JButton btIniciarPublicarAnuncios;
     private javax.swing.JComboBox<String> cbHoraMostrarDesde;
     private javax.swing.JComboBox<String> cbHoraMostrarHasta;
     private javax.swing.JCheckBox checkMostrarDesde;
@@ -402,7 +494,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -410,15 +501,21 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JDialog jdCredencialesPublicarAnuncio;
     private javax.swing.JDialog jdPublicarAnuncios;
     private javax.swing.JRadioButton rbFechaRestringida;
     private javax.swing.JRadioButton rbSinREstriccion;
+    private javax.swing.JTextField tfCorreoPublicarAnuncios;
+    private javax.swing.JPasswordField tfPassCrearAnuncio;
     private javax.swing.JTextField tfTitulo;
     // End of variables declaration//GEN-END:variables
 }
