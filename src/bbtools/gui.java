@@ -5,12 +5,21 @@
  */
 package bbtools;
 
-
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.server.SeleniumServer;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  *
@@ -37,7 +46,7 @@ public class gui extends javax.swing.JFrame {
 
         jdPublicarAnuncios = new javax.swing.JDialog();
         jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        btAgregarSeccionesPublicarAnuncios = new javax.swing.JButton();
         btIniciarPublicarAnuncios = new javax.swing.JButton();
         tfTitulo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -56,7 +65,7 @@ public class gui extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtTablaSeccionesPublicarAnuncios = new javax.swing.JTable();
         grupoFechaRestringida = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -74,7 +83,12 @@ public class gui extends javax.swing.JFrame {
 
         jLabel2.setText("Publicar Anuncios");
 
-        jButton4.setText("Agregar Secciones");
+        btAgregarSeccionesPublicarAnuncios.setText("Agregar Secciones");
+        btAgregarSeccionesPublicarAnuncios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btAgregarSeccionesPublicarAnunciosMouseClicked(evt);
+            }
+        });
 
         btIniciarPublicarAnuncios.setText("Iniciar");
         btIniciarPublicarAnuncios.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,7 +156,7 @@ public class gui extends javax.swing.JFrame {
 
         jCheckBox1.setText("Enviar una copia de este anuncio al correo de los alumnos");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtTablaSeccionesPublicarAnuncios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null}
             },
@@ -158,7 +172,7 @@ public class gui extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(jtTablaSeccionesPublicarAnuncios);
 
         javax.swing.GroupLayout jdPublicarAnunciosLayout = new javax.swing.GroupLayout(jdPublicarAnuncios.getContentPane());
         jdPublicarAnuncios.getContentPane().setLayout(jdPublicarAnunciosLayout);
@@ -172,7 +186,7 @@ public class gui extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(tfTitulo)
                             .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addComponent(jButton4)
+                                .addComponent(btAgregarSeccionesPublicarAnuncios)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btIniciarPublicarAnuncios, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
@@ -225,7 +239,7 @@ public class gui extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4)
+                            .addComponent(btAgregarSeccionesPublicarAnuncios)
                             .addComponent(btIniciarPublicarAnuncios))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -376,7 +390,7 @@ public class gui extends javax.swing.JFrame {
         if (rbFechaRestringida.isSelected()) {
             checkMostrarDesde.setEnabled(true);
             checkMostrarHasta.setEnabled(true);
-        }else if (!rbFechaRestringida.isSelected()) {
+        } else if (!rbFechaRestringida.isSelected()) {
             checkMostrarDesde.setEnabled(false);
             checkMostrarHasta.setEnabled(false);
             checkMostrarDesde.setSelected(false);
@@ -388,7 +402,7 @@ public class gui extends javax.swing.JFrame {
         if (!rbSinREstriccion.isSelected()) {
             checkMostrarDesde.setEnabled(true);
             checkMostrarHasta.setEnabled(true);
-        }else if (rbSinREstriccion.isSelected()) {
+        } else if (rbSinREstriccion.isSelected()) {
             checkMostrarDesde.setSelected(false);
             checkMostrarHasta.setSelected(false);
             checkMostrarDesde.setEnabled(false);
@@ -407,7 +421,7 @@ public class gui extends javax.swing.JFrame {
         if (checkMostrarDesde.isSelected()) {
             dcFechaMostrarDesde.setEnabled(true);
             cbHoraMostrarDesde.setEnabled(true);
-        }else if (!checkMostrarDesde.isSelected()) {
+        } else if (!checkMostrarDesde.isSelected()) {
             dcFechaMostrarDesde.setEnabled(false);
             cbHoraMostrarDesde.setEnabled(false);
         }
@@ -417,7 +431,7 @@ public class gui extends javax.swing.JFrame {
         if (checkMostrarHasta.isSelected()) {
             dcMostrarHasta.setEnabled(true);
             cbHoraMostrarHasta.setEnabled(true);
-        }else if (!checkMostrarHasta.isSelected()) {
+        } else if (!checkMostrarHasta.isSelected()) {
             dcMostrarHasta.setEnabled(false);
             cbHoraMostrarHasta.setEnabled(false);
         }
@@ -433,17 +447,105 @@ public class gui extends javax.swing.JFrame {
     private void btIniciarCrearAnuncio2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btIniciarCrearAnuncio2MouseClicked
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         WebDriver Driver = new ChromeDriver();
-        //Driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
         Driver.get("https://lnps.elearning.laureate.net/");
+
+        //Credenciales
         String correo = tfCorreoPublicarAnuncios.getText();
         String contraseña = tfPassCrearAnuncio.getText();
+        //Credenciales
+
+        //Iniciar Sesion
         Driver.findElement(By.id("username")).sendKeys(correo);
         Driver.findElement(By.name("password")).sendKeys(contraseña);
         Driver.findElement(By.id("btnLogin")).click();
+        //Iniciar Sesion
+
+        //Ir a system Admi y Cursos
         Driver.findElement(By.id("SystemAdmin.label")).click();
         Driver.findElement(By.id("nav_list_courses")).click();
+        //Ir a system Admi y Cursos
+        
+        //Seleccionar de ComboBox
+        Select select = new Select(Driver.findElement(By.id("courseInfoSearchKeyString")));
+        select.selectByValue("CourseId");
+        //Seleccionar de ComboBox
+        
+        DefaultTableModel modelo = (DefaultTableModel)jtTablaSeccionesPublicarAnuncios.getModel();
+        for (int i = 0; i < 1; i++) {
+            String CourseID = (String)modelo.getValueAt(i, 0);
+            Driver.findElement(By.id("courseInfoSearchText")).sendKeys(CourseID);
+            Driver.findElement(By.xpath("//*[@value='Go']")).click();
+            
+            int index = 1;
+            WebElement baseTable = Driver.findElement(By.id("listContainer_datatable"));
+            List <WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
+            int iteracion = 0;
+            for(WebElement trElement : tableRows){
+                List <WebElement> tableColumn = trElement.findElements(By.xpath("td"));
+                
+                System.out.println("# of columns: "+tableColumn.size());
+                if (iteracion == 1) {
+                    //List <WebElement> elementos = tableColumn.get(2).findElements(By.tagName("a"));
+                    //Driver.findElement(By.linkText(CourseID)).click();
+                    //tableColumn.get(2).click();
+                    System.out.println(tableColumn.get(1).getText());
+                    System.out.println(tableColumn.get(1).getAttribute("href"));
+                    
+                    tableColumn.get(1).click();
+                }
+                iteracion++;
+            }
+            //System.out.println("Course ID: "+tableRows.get(index).getText());
+            //tableRows.get(index).click();
+        }
         System.out.println("LISTO");
     }//GEN-LAST:event_btIniciarCrearAnuncio2MouseClicked
+
+    private void btAgregarSeccionesPublicarAnunciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAgregarSeccionesPublicarAnunciosMouseClicked
+        String Sysusername = System.getProperty("user.name");
+        JFileChooser jf1 = new JFileChooser("C:\\Users\\" + Sysusername + "\\Documents");
+        int entra = jf1.showOpenDialog(null);
+        if (entra == JFileChooser.APPROVE_OPTION) {
+            File csvAgregarSecciones = jf1.getSelectedFile();
+            DefaultTableModel modelo = (DefaultTableModel) jtTablaSeccionesPublicarAnuncios.getModel();
+            int rowCount = modelo.getRowCount();
+
+            //Remove rows
+            for (int i = rowCount - 1; i >= 0; i--) {
+                modelo.removeRow(i);
+            }
+            //Remove rows
+
+            //Add rows
+            String csvFile = csvAgregarSecciones.getAbsolutePath();
+            BufferedReader br = null;
+            String line;
+            String csvSplitBy = ";";
+
+            try {
+                br = new BufferedReader(new FileReader(csvFile));
+                while ((line = br.readLine()) != null){                
+                    modelo.addRow(new Object[]{line, false});
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (br != null) {
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            System.out.println("CSV LEIDO");
+        } else {
+            JOptionPane.showMessageDialog(null, "CSV NO ENCONTRADO");
+        }
+    }//GEN-LAST:event_btAgregarSeccionesPublicarAnunciosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -481,6 +583,7 @@ public class gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAgregarSeccionesPublicarAnuncios;
     private javax.swing.JButton btIniciarCrearAnuncio2;
     private javax.swing.JButton btIniciarPublicarAnuncios;
     private javax.swing.JComboBox<String> cbHoraMostrarDesde;
@@ -493,7 +596,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -508,10 +610,10 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JDialog jdCredencialesPublicarAnuncio;
     private javax.swing.JDialog jdPublicarAnuncios;
+    private javax.swing.JTable jtTablaSeccionesPublicarAnuncios;
     private javax.swing.JRadioButton rbFechaRestringida;
     private javax.swing.JRadioButton rbSinREstriccion;
     private javax.swing.JTextField tfCorreoPublicarAnuncios;
