@@ -19,7 +19,9 @@ import javax.swing.table.DefaultTableModel;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.server.SeleniumServer;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -50,7 +52,7 @@ public class gui extends javax.swing.JFrame {
         btIniciarPublicarAnuncios = new javax.swing.JButton();
         tfTitulo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        taMensaje = new javax.swing.JTextArea();
         rbSinREstriccion = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         rbFechaRestringida = new javax.swing.JRadioButton();
@@ -63,9 +65,10 @@ public class gui extends javax.swing.JFrame {
         cbHoraMostrarHasta = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkCopiaCorreo = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtTablaSeccionesPublicarAnuncios = new javax.swing.JTable();
+        jCheckBox1 = new javax.swing.JCheckBox();
         grupoFechaRestringida = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -99,9 +102,9 @@ public class gui extends javax.swing.JFrame {
 
         tfTitulo.setText("Titulo");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        taMensaje.setColumns(20);
+        taMensaje.setRows(5);
+        jScrollPane1.setViewportView(taMensaje);
 
         grupoFechaRestringida.add(rbSinREstriccion);
         rbSinREstriccion.setSelected(true);
@@ -154,7 +157,7 @@ public class gui extends javax.swing.JFrame {
 
         jLabel6.setText("Enviar a correo");
 
-        jCheckBox1.setText("Enviar una copia de este anuncio al correo de los alumnos");
+        checkCopiaCorreo.setText("Enviar una copia de este anuncio al correo de los alumnos");
 
         jtTablaSeccionesPublicarAnuncios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -173,6 +176,8 @@ public class gui extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(jtTablaSeccionesPublicarAnuncios);
+
+        jCheckBox1.setText("Darse de alta del curso después de publicar.");
 
         javax.swing.GroupLayout jdPublicarAnunciosLayout = new javax.swing.GroupLayout(jdPublicarAnuncios.getContentPane());
         jdPublicarAnuncios.getContentPane().setLayout(jdPublicarAnunciosLayout);
@@ -215,19 +220,23 @@ public class gui extends javax.swing.JFrame {
                                                 .addComponent(jLabel5)))))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addGap(156, 156, 156))
                     .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox1)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(checkCopiaCorreo))
+                            .addComponent(jCheckBox1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
+                        .addGap(0, 5, Short.MAX_VALUE)
+                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(156, 156, 156))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
         );
         jdPublicarAnunciosLayout.setVerticalGroup(
             jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,10 +279,12 @@ public class gui extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jCheckBox1))
+                    .addComponent(checkCopiaCorreo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -358,16 +369,15 @@ public class gui extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(jLabel1))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(134, 134, 134)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(137, Short.MAX_VALUE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(139, 139, 139))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,12 +385,12 @@ public class gui extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jLabel1)
                 .addGap(51, 51, 51)
-                .addComponent(jButton1)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(38, 38, 38)
                 .addComponent(jButton2)
                 .addGap(35, 35, 35)
-                .addComponent(jButton3)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(71, 71, 71))
         );
 
         pack();
@@ -455,6 +465,13 @@ public class gui extends javax.swing.JFrame {
         String contraseña = tfPassCrearAnuncio.getText();
         //Credenciales
 
+        if (correo.contentEquals("")) {
+            correo = "lps1.walther.carrasco@laureate.net";
+        }
+        if (contraseña.contentEquals("")) {
+            contraseña = "Laureate2015$$";
+        }
+
         //Iniciar Sesion
         Driver.findElement(By.id("username")).sendKeys(correo);
         Driver.findElement(By.name("password")).sendKeys(contraseña);
@@ -465,39 +482,84 @@ public class gui extends javax.swing.JFrame {
         Driver.findElement(By.id("SystemAdmin.label")).click();
         Driver.findElement(By.id("nav_list_courses")).click();
         //Ir a system Admi y Cursos
-        
+
         //Seleccionar de ComboBox
         Select select = new Select(Driver.findElement(By.id("courseInfoSearchKeyString")));
         select.selectByValue("CourseId");
         //Seleccionar de ComboBox
-        
-        DefaultTableModel modelo = (DefaultTableModel)jtTablaSeccionesPublicarAnuncios.getModel();
-        for (int i = 0; i < 1; i++) {
-            String CourseID = (String)modelo.getValueAt(i, 0);
+        String CourseID = "";
+        DefaultTableModel modelo = (DefaultTableModel) jtTablaSeccionesPublicarAnuncios.getModel();
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            CourseID = (String) modelo.getValueAt(i, 0);
+            Driver.findElement(By.id("courseInfoSearchText")).clear();
             Driver.findElement(By.id("courseInfoSearchText")).sendKeys(CourseID);
             Driver.findElement(By.xpath("//*[@value='Go']")).click();
-            
+
             int index = 1;
             WebElement baseTable = Driver.findElement(By.id("listContainer_datatable"));
-            List <WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
+            List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
             int iteracion = 0;
-            for(WebElement trElement : tableRows){
-                List <WebElement> tableColumn = trElement.findElements(By.xpath("td"));
-                
-                System.out.println("# of columns: "+tableColumn.size());
-                if (iteracion == 1) {
-                    //List <WebElement> elementos = tableColumn.get(2).findElements(By.tagName("a"));
-                    //Driver.findElement(By.linkText(CourseID)).click();
-                    //tableColumn.get(2).click();
-                    System.out.println(tableColumn.get(1).getText());
-                    System.out.println(tableColumn.get(1).getAttribute("href"));
-                    
-                    tableColumn.get(1).click();
+            //Hace click en el course ID
+            Driver.findElement(By.linkText(CourseID)).click();
+
+            //Hace click en Crear Anuncio
+            Driver.findElement(By.id("nav")).click();
+
+            
+            String subject = tfTitulo.getText();
+            String body = taMensaje.getText();
+            
+            WebElement myDynamicElement = (new WebDriverWait(Driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.id("subject")));
+            
+            //Llenando el anuncio
+            Driver.findElement(By.name("subject")).sendKeys(subject);
+            WebElement myDynamicElement2 = (new WebDriverWait(Driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.id("messagetext_ifr")));
+            Driver.findElement(By.id("messagetext_ifr")).sendKeys(taMensaje.getText());
+
+            //Llenando opciones
+            if (rbSinREstriccion.isSelected()) {
+                Driver.findElement(By.id("isPermanent_true")).click();
+            } else if (rbFechaRestringida.isSelected()) {
+                if (checkMostrarDesde.isSelected()) {
+                    Driver.findElement(By.id("start_restrict")).click();
+                    String dia = "", mes = "", ano = "", fecha1 = "";
+                    fecha1 = dcFechaMostrarDesde.getText();
+                    String[] date = fecha1.split("-");
+                    dia = date[0];
+                    mes = date[1];
+                    ano = "20" + date[2];
+                    Driver.findElement(By.id("dp_restrict_start_date")).sendKeys("" + dia + "-" + mes + "-" + ano);
+                    Driver.findElement(By.id("tp_restrict_start_time")).sendKeys((String) cbHoraMostrarDesde.getSelectedItem());
+
+                    Driver.findElement(By.id("end_restrict")).click();
+                    dia = "";
+                    mes = "";
+                    ano = "";
+                    fecha1 = "";
+                    fecha1 = dcMostrarHasta.getText();
+                    date = fecha1.split("-");
+                    dia = date[0];
+                    mes = date[1];
+                    ano = "20" + date[2];
+                    Driver.findElement(By.id("dp_restrict_end_date")).sendKeys("" + dia + "-" + mes + "-" + ano);
+                    Driver.findElement(By.id("tp_restrict_end_time")).sendKeys((String) cbHoraMostrarHasta.getSelectedItem());
                 }
-                iteracion++;
             }
-            //System.out.println("Course ID: "+tableRows.get(index).getText());
-            //tableRows.get(index).click();
+
+            if (checkCopiaCorreo.isSelected()) {
+                Driver.findElement(By.id("pushNotify_true")).click();
+            }
+
+            //Enviar
+            //Driver.findElement(By.name("top_enviar"));
+            //Cancelar
+            Driver.findElement(By.name("top_Cancelar"));
+            modelo.setValueAt(true, i, 1);
+
+            //Ir a system Admi y Cursos
+            Driver.findElement(By.id("SystemAdmin.label")).click();
+            Driver.findElement(By.id("nav_list_courses")).click();
+            //Ir a system Admi y Cursos
         }
         System.out.println("LISTO");
     }//GEN-LAST:event_btIniciarCrearAnuncio2MouseClicked
@@ -525,7 +587,7 @@ public class gui extends javax.swing.JFrame {
 
             try {
                 br = new BufferedReader(new FileReader(csvFile));
-                while ((line = br.readLine()) != null){                
+                while ((line = br.readLine()) != null) {
                     modelo.addRow(new Object[]{line, false});
                 }
             } catch (FileNotFoundException e) {
@@ -588,6 +650,7 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton btIniciarPublicarAnuncios;
     private javax.swing.JComboBox<String> cbHoraMostrarDesde;
     private javax.swing.JComboBox<String> cbHoraMostrarHasta;
+    private javax.swing.JCheckBox checkCopiaCorreo;
     private javax.swing.JCheckBox checkMostrarDesde;
     private javax.swing.JCheckBox checkMostrarHasta;
     private datechooser.beans.DateChooserCombo dcFechaMostrarDesde;
@@ -610,12 +673,12 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JDialog jdCredencialesPublicarAnuncio;
     private javax.swing.JDialog jdPublicarAnuncios;
     private javax.swing.JTable jtTablaSeccionesPublicarAnuncios;
     private javax.swing.JRadioButton rbFechaRestringida;
     private javax.swing.JRadioButton rbSinREstriccion;
+    private javax.swing.JTextArea taMensaje;
     private javax.swing.JTextField tfCorreoPublicarAnuncios;
     private javax.swing.JPasswordField tfPassCrearAnuncio;
     private javax.swing.JTextField tfTitulo;
