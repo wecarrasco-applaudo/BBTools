@@ -6,6 +6,11 @@
 package bbtools;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.sun.glass.events.KeyEvent;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +18,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -68,7 +75,10 @@ public class gui extends javax.swing.JFrame {
         checkCopiaCorreo = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtTablaSeccionesPublicarAnuncios = new javax.swing.JTable();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbDarsedeAlta = new javax.swing.JCheckBox();
+        jLabel10 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jlImagePath = new javax.swing.JLabel();
         grupoFechaRestringida = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -79,10 +89,26 @@ public class gui extends javax.swing.JFrame {
         tfCorreoPublicarAnuncios = new javax.swing.JTextField();
         tfPassCrearAnuncio = new javax.swing.JPasswordField();
         btIniciarCrearAnuncio2 = new javax.swing.JButton();
+        cierreActividades = new javax.swing.JDialog();
+        btUploadCSV = new javax.swing.JButton();
+        tfCACSVName = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jtCATabla = new javax.swing.JTable();
+        cbCAUnenroll = new javax.swing.JCheckBox();
+        btCAIniciar = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        credencialesCierreActividades = new javax.swing.JDialog();
+        jLabel11 = new javax.swing.JLabel();
+        tfCACorreo = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        tfCAPass = new javax.swing.JPasswordField();
+        btCACredencial = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         jLabel2.setText("Publicar Anuncios");
 
@@ -177,114 +203,142 @@ public class gui extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jtTablaSeccionesPublicarAnuncios);
 
-        jCheckBox1.setText("Darse de alta del curso después de publicar.");
+        cbDarsedeAlta.setText("Darse de alta del curso después de publicar.");
+
+        jLabel10.setText("Imagen");
+
+        jButton4.setText("Examinar");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
+        jlImagePath.setText("Sin Imagen");
 
         javax.swing.GroupLayout jdPublicarAnunciosLayout = new javax.swing.GroupLayout(jdPublicarAnuncios.getContentPane());
         jdPublicarAnuncios.getContentPane().setLayout(jdPublicarAnunciosLayout);
         jdPublicarAnunciosLayout.setHorizontalGroup(
             jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(tfTitulo)
-                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addComponent(btAgregarSeccionesPublicarAnuncios)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btIniciarPublicarAnuncios, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                        .addComponent(rbSinREstriccion)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rbFechaRestringida))
-                                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(checkMostrarDesde)
-                                            .addComponent(checkMostrarHasta))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(dcMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(dcFechaMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                                .addComponent(cbHoraMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel4))
-                                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                                .addComponent(cbHoraMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel5)))))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(checkCopiaCorreo))
-                            .addComponent(jCheckBox1))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
-                        .addGap(0, 5, Short.MAX_VALUE)
-                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(156, 156, 156))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))))
+                .addGap(161, 161, 161)
+                .addComponent(jLabel2))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(btAgregarSeccionesPublicarAnuncios)
+                .addGap(141, 141, 141)
+                .addComponent(btIniciarPublicarAnuncios, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel10)
+                .addGap(24, 24, 24)
+                .addComponent(jButton4)
+                .addGap(13, 13, 13)
+                .addComponent(jlImagePath, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(rbSinREstriccion)
+                .addGap(18, 18, 18)
+                .addComponent(rbFechaRestringida))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(checkMostrarDesde)
+                .addGap(18, 18, 18)
+                .addComponent(dcFechaMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(183, 183, 183)
+                .addComponent(cbHoraMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jLabel4))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(checkMostrarHasta)
+                .addGap(20, 20, 20)
+                .addComponent(dcMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(183, 183, 183)
+                .addComponent(cbHoraMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jLabel5))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel6)
+                .addGap(6, 6, 6)
+                .addComponent(checkCopiaCorreo))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(cbDarsedeAlta))
+            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jdPublicarAnunciosLayout.setVerticalGroup(
             jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jLabel2)
+                .addGap(11, 11, 11)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btAgregarSeccionesPublicarAnuncios)
+                    .addComponent(btIniciarPublicarAnuncios))
+                .addGap(11, 11, 11)
+                .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btAgregarSeccionesPublicarAnuncios)
-                            .addComponent(btIniciarPublicarAnuncios))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(rbSinREstriccion)
-                                    .addComponent(rbFechaRestringida))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(checkMostrarDesde)
-                                    .addComponent(dcFechaMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbHoraMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(checkMostrarHasta)
-                            .addComponent(dcMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbHoraMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel10))
+                    .addComponent(jButton4)
+                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jlImagePath)))
+                .addGap(8, 8, 8)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel3))
+                    .addComponent(rbSinREstriccion)
+                    .addComponent(rbFechaRestringida))
+                .addGap(7, 7, 7)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkMostrarDesde)
+                    .addComponent(dcFechaMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbHoraMostrarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkMostrarHasta)
+                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(dcMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbHoraMostrarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel5)))
                 .addGap(33, 33, 33)
-                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                .addGroup(jdPublicarAnunciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jdPublicarAnunciosLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel6))
                     .addComponent(checkCopiaCorreo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(2, 2, 2)
+                .addComponent(cbDarsedeAlta)
+                .addGap(7, 7, 7)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -349,6 +403,141 @@ public class gui extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btUploadCSV.setText("Upload CSV");
+        btUploadCSV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btUploadCSVMouseClicked(evt);
+            }
+        });
+
+        tfCACSVName.setEnabled(false);
+
+        jtCATabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Course ID", "Course Name", "Listo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jtCATabla);
+
+        cbCAUnenroll.setText("Unenroll");
+
+        btCAIniciar.setText("INICIAR");
+        btCAIniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btCAIniciarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout cierreActividadesLayout = new javax.swing.GroupLayout(cierreActividades.getContentPane());
+        cierreActividades.getContentPane().setLayout(cierreActividadesLayout);
+        cierreActividadesLayout.setHorizontalGroup(
+            cierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cierreActividadesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
+                    .addGroup(cierreActividadesLayout.createSequentialGroup()
+                        .addComponent(btUploadCSV)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfCACSVName))
+                    .addGroup(cierreActividadesLayout.createSequentialGroup()
+                        .addComponent(cbCAUnenroll, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btCAIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        cierreActividadesLayout.setVerticalGroup(
+            cierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cierreActividadesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btUploadCSV)
+                    .addComponent(tfCACSVName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(cierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbCAUnenroll)
+                    .addComponent(btCAIniciar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jButton7.setText("jButton7");
+
+        jLabel11.setText("Credenciales");
+
+        jLabel12.setText("Correo:");
+
+        jLabel13.setText("Contraseña:");
+
+        tfCAPass.setText("jPasswordField1");
+
+        btCACredencial.setText("INICIAR");
+        btCACredencial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btCACredencialMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout credencialesCierreActividadesLayout = new javax.swing.GroupLayout(credencialesCierreActividades.getContentPane());
+        credencialesCierreActividades.getContentPane().setLayout(credencialesCierreActividadesLayout);
+        credencialesCierreActividadesLayout.setHorizontalGroup(
+            credencialesCierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(credencialesCierreActividadesLayout.createSequentialGroup()
+                .addGroup(credencialesCierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(credencialesCierreActividadesLayout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(jLabel11))
+                    .addGroup(credencialesCierreActividadesLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(credencialesCierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))
+                        .addGap(33, 33, 33)
+                        .addGroup(credencialesCierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tfCAPass, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                            .addComponent(tfCACorreo)))
+                    .addGroup(credencialesCierreActividadesLayout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(btCACredencial)))
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+        credencialesCierreActividadesLayout.setVerticalGroup(
+            credencialesCierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(credencialesCierreActividadesLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel11)
+                .addGap(37, 37, 37)
+                .addGroup(credencialesCierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfCACorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(48, 48, 48)
+                .addGroup(credencialesCierreActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(tfCAPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(btCACredencial)
+                .addGap(26, 26, 26))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("BB TOOLS");
@@ -364,6 +553,13 @@ public class gui extends javax.swing.JFrame {
 
         jButton3.setText("Descargar Reportes");
 
+        jButton5.setText("Cierre de Actividades");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -371,12 +567,13 @@ public class gui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(175, 175, 175)
                 .addComponent(jLabel1))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(134, 134, 134)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(139, 139, 139))
         );
         layout.setVerticalGroup(
@@ -385,12 +582,14 @@ public class gui extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jLabel1)
                 .addGap(51, 51, 51)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(38, 38, 38)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addGap(35, 35, 35)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(71, 71, 71))
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(18, 18, 18)
+                .addComponent(jButton5)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();
@@ -452,8 +651,12 @@ public class gui extends javax.swing.JFrame {
         jdCredencialesPublicarAnuncio.setModal(true);
         jdCredencialesPublicarAnuncio.setLocationRelativeTo(null);
         jdCredencialesPublicarAnuncio.setVisible(true);
+        tfCorreoPublicarAnuncios.setText("lps1.walther.carrasco@laureate.net");
+        tfPassCrearAnuncio.setText("Laureate2015$$");
     }//GEN-LAST:event_btIniciarPublicarAnunciosMouseClicked
 
+    
+    //CrearAnuncio
     private void btIniciarCrearAnuncio2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btIniciarCrearAnuncio2MouseClicked
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         WebDriver Driver = new ChromeDriver();
@@ -502,19 +705,73 @@ public class gui extends javax.swing.JFrame {
             //Hace click en el course ID
             Driver.findElement(By.linkText(CourseID)).click();
 
+            //Verificar si esta enrolled o no en el curso
+            if (Driver.findElement(By.id("quickEnrollLink")).getText().contentEquals("Inscripción rápida")) {
+                System.out.println("ENTRA AL IF");
+                Driver.findElement(By.id("quickEnrollLink")).click();
+                Driver.switchTo().alert().accept();
+            }
+
             //Hace click en Crear Anuncio
+            WebElement myDynamicElement1 = (new WebDriverWait(Driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.id("nav")));
             Driver.findElement(By.id("nav")).click();
 
-            
             String subject = tfTitulo.getText();
             String body = taMensaje.getText();
-            
+
             WebElement myDynamicElement = (new WebDriverWait(Driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.id("subject")));
-            
+
             //Llenando el anuncio
             Driver.findElement(By.name("subject")).sendKeys(subject);
             WebElement myDynamicElement2 = (new WebDriverWait(Driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.id("messagetext_ifr")));
             Driver.findElement(By.id("messagetext_ifr")).sendKeys(taMensaje.getText());
+
+            //Adjuntando imagen
+            if (!jlImagePath.getText().contentEquals("Sin Imagen")) {
+                try {
+                    Robot r = new Robot();
+                    Driver.findElement(By.id("messagetext_image")).click();
+                    String winHandleBefore = Driver.getWindowHandle();
+
+                    // Perform the click operation that opens new window
+                    // Switch to new window opened
+                    for (String winHandle : Driver.getWindowHandles()) {
+                        Driver.switchTo().window(winHandle);
+                    }
+
+                    StringSelection ss = new StringSelection(pathImagen);
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+
+                    Driver.findElement(By.id("imagepackage_localFileDiv")).click();
+                    
+                    try {
+                        System.out.println("sleep");
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    //r.keyPress(KeyEvent.VK_ENTER);
+                    //r.keyRelease(KeyEvent.VK_ENTER);
+                    r.keyPress(KeyEvent.VK_CONTROL);
+                    r.keyPress(KeyEvent.VK_V);
+                    r.keyRelease(KeyEvent.VK_V);
+                    r.keyRelease(KeyEvent.VK_CONTROL);
+                    r.keyPress(KeyEvent.VK_ENTER);
+                    r.keyRelease(KeyEvent.VK_ENTER);
+                    try {
+                        System.out.println("sleep");
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Driver.findElement(By.id("insert")).click();
+                    Driver.switchTo().alert().accept();
+                    Driver.switchTo().window(winHandleBefore);
+                } catch (AWTException ex) {
+                    Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
 
             //Llenando opciones
             if (rbSinREstriccion.isSelected()) {
@@ -556,12 +813,22 @@ public class gui extends javax.swing.JFrame {
             Driver.findElement(By.name("top_Cancelar"));
             modelo.setValueAt(true, i, 1);
 
+            //Unenroll
+            if (cbDarsedeAlta.isSelected()) {
+                if (Driver.findElement(By.id("quickEnrollLink")).getText().contentEquals("Cancelación de la inscripción rápida")) {
+                    System.out.println("ENTRA AL IF");
+                    Driver.findElement(By.id("quickEnrollLink")).click();
+                    Driver.switchTo().alert().accept();
+                }
+            }
+
             //Ir a system Admi y Cursos
             Driver.findElement(By.id("SystemAdmin.label")).click();
             Driver.findElement(By.id("nav_list_courses")).click();
             //Ir a system Admi y Cursos
         }
         System.out.println("LISTO");
+        JOptionPane.showMessageDialog(this, "DONE");
     }//GEN-LAST:event_btIniciarCrearAnuncio2MouseClicked
 
     private void btAgregarSeccionesPublicarAnunciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAgregarSeccionesPublicarAnunciosMouseClicked
@@ -609,6 +876,170 @@ public class gui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btAgregarSeccionesPublicarAnunciosMouseClicked
 
+    //Selecciona una imagen
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        String Sysusername = System.getProperty("user.name");
+        JFileChooser jf1 = new JFileChooser("C:\\Users\\" + Sysusername + "\\Documents");
+        int entra = jf1.showOpenDialog(null);
+        if (entra == JFileChooser.APPROVE_OPTION) {
+            pathImagen = jf1.getSelectedFile().getPath();
+            String nombreImagen = jf1.getSelectedFile().getName();
+            jlImagePath.setText(nombreImagen);
+        } else {
+            JOptionPane.showMessageDialog(null, "IMAGEN NO ENCONTRADO");
+        }
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void btUploadCSVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btUploadCSVMouseClicked
+        JFileChooser jf1 = new JFileChooser("C:\\Users\\Walther\\Documents\\");
+        int un = jf1.showOpenDialog(null);
+        if (un == JFileChooser.APPROVE_OPTION) {
+            File archivo = jf1.getSelectedFile();
+            leerArchivo(archivo.getAbsolutePath(), archivo.getName());
+        }
+    }//GEN-LAST:event_btUploadCSVMouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        cierreActividades.setModal(true);
+        cierreActividades.pack();
+        cierreActividades.setLocationRelativeTo(null);
+        cierreActividades.setVisible(true);
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void btCACredencialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCACredencialMouseClicked
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        WebDriver Driver = new ChromeDriver();
+
+        Driver.get("https://lnps.elearning.laureate.net/");
+
+        //Credenciales
+        String correo = tfCACorreo.getText();
+        String contraseña = tfCAPass.getText();
+        //Credenciales
+
+        if (correo.contentEquals("")) {
+            correo = "lps1.walther.carrasco@laureate.net";
+        }
+        if (contraseña.contentEquals("")) {
+            contraseña = "Laureate2015$$";
+        }
+
+        //Iniciar Sesion
+        Driver.findElement(By.id("username")).sendKeys(correo);
+        Driver.findElement(By.name("password")).sendKeys(contraseña);
+        Driver.findElement(By.id("btnLogin")).click();
+        //Iniciar Sesion
+
+        //Ir a system Admi y Cursos
+        Driver.findElement(By.id("SystemAdmin.label")).click();
+        Driver.findElement(By.id("nav_list_courses")).click();
+        //Ir a system Admi y Cursos
+
+        //Seleccionar de ComboBox
+        Select select = new Select(Driver.findElement(By.id("courseInfoSearchKeyString")));
+        select.selectByValue("CourseId");
+        //Seleccionar de ComboBox
+        String CourseID = "";
+        DefaultTableModel modelo = (DefaultTableModel) jtCATabla.getModel();
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            CourseID = (String) modelo.getValueAt(i, 0);
+            Driver.findElement(By.id("courseInfoSearchText")).clear();
+            Driver.findElement(By.id("courseInfoSearchText")).sendKeys(CourseID);
+            Driver.findElement(By.xpath("//*[@value='Go']")).click();
+
+            int index = 1;
+            WebElement baseTable = Driver.findElement(By.id("listContainer_datatable"));
+            List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
+            int iteracion = 0;
+            //Hace click en el course ID
+            Driver.findElement(By.linkText(CourseID)).click();
+
+            //Verificar si esta enrolled o no en el curso
+            if (Driver.findElement(By.id("quickEnrollLink")).getText().contentEquals("Inscripción rápida")) {
+                System.out.println("ENTRA AL IF");
+                Driver.findElement(By.id("quickEnrollLink")).click();
+                Driver.switchTo().alert().accept();
+            }
+            
+            
+            //Hacer click en la flechita 
+            Driver.findElement(By.xpath("//*[@title='Opciones de elemento de menú 1.1 Café del Curso']")).click();
+            //Hacer click en la flechita
+            
+            
+            //Hacer click en Cambiar visibilidad del enlace
+            WebElement myDynamicElement1 = (new WebDriverWait(Driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@title='Cambiar visibilidad del enlace']")));
+            if (!Driver.findElements(By.xpath("//*[@title='Ocultar enlace']")).isEmpty()) {
+                System.out.println("No por que ya esta oculto!");
+                Driver.findElement(By.xpath("//*[@title='Cambiar visibilidad del enlace']")).click();
+            }
+            
+            //Hacer click en Cambiar visibilidad del enlace
+            
+
+            //Ir a system Admi y Cursos
+            Driver.findElement(By.id("SystemAdmin.label")).click();
+            Driver.findElement(By.id("nav_list_courses")).click();
+            //Ir a system Admi y Cursos
+        }
+        System.out.println("LISTO");
+        JOptionPane.showMessageDialog(this, "DONE");
+    }//GEN-LAST:event_btCACredencialMouseClicked
+
+    private void btCAIniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCAIniciarMouseClicked
+        credencialesCierreActividades.setModal(true);
+        credencialesCierreActividades.pack();
+        credencialesCierreActividades.setLocationRelativeTo(null);
+        credencialesCierreActividades.setVisible(true);
+    }//GEN-LAST:event_btCAIniciarMouseClicked
+
+    private void leerArchivo(String path, String name){
+//        String Sysusername = System.getProperty("user.name");
+//        JFileChooser jf1 = new JFileChooser("C:\\Users\\" + Sysusername + "\\Documents");
+//        int entra = jf1.showOpenDialog(null);
+//        if (entra == JFileChooser.APPROVE_OPTION) {
+            File csvAgregarSecciones = new File(path);
+            DefaultTableModel modelo = (DefaultTableModel) jtCATabla.getModel();
+            int rowCount = modelo.getRowCount();
+            tfCACSVName.setText(name);
+            //Remove rows
+            for (int i = rowCount - 1; i >= 0; i--) {
+                modelo.removeRow(i);
+            }
+            //Remove rows
+
+            //Add rows
+            String csvFile = csvAgregarSecciones.getAbsolutePath();
+            BufferedReader br = null;
+            String line;
+            String csvSplitBy = ";";
+
+            try {
+                br = new BufferedReader(new FileReader(csvFile));
+                while ((line = br.readLine()) != null) {
+                    modelo.addRow(new Object[]{line, "", false});
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (br != null) {
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            System.out.println("CSV LEIDO");
+//        } else {
+//            JOptionPane.showMessageDialog(null, "CSV NO ENCONTRADO");
+//        }
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -646,21 +1077,34 @@ public class gui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAgregarSeccionesPublicarAnuncios;
+    private javax.swing.JButton btCACredencial;
+    private javax.swing.JButton btCAIniciar;
     private javax.swing.JButton btIniciarCrearAnuncio2;
     private javax.swing.JButton btIniciarPublicarAnuncios;
+    private javax.swing.JButton btUploadCSV;
+    private javax.swing.JCheckBox cbCAUnenroll;
+    private javax.swing.JCheckBox cbDarsedeAlta;
     private javax.swing.JComboBox<String> cbHoraMostrarDesde;
     private javax.swing.JComboBox<String> cbHoraMostrarHasta;
     private javax.swing.JCheckBox checkCopiaCorreo;
     private javax.swing.JCheckBox checkMostrarDesde;
     private javax.swing.JCheckBox checkMostrarHasta;
+    private javax.swing.JDialog cierreActividades;
+    private javax.swing.JDialog credencialesCierreActividades;
     private datechooser.beans.DateChooserCombo dcFechaMostrarDesde;
     private datechooser.beans.DateChooserCombo dcMostrarHasta;
     private javax.swing.ButtonGroup grupoFechaRestringida;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -672,15 +1116,22 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JDialog jdCredencialesPublicarAnuncio;
     private javax.swing.JDialog jdPublicarAnuncios;
+    private javax.swing.JLabel jlImagePath;
+    private javax.swing.JTable jtCATabla;
     private javax.swing.JTable jtTablaSeccionesPublicarAnuncios;
     private javax.swing.JRadioButton rbFechaRestringida;
     private javax.swing.JRadioButton rbSinREstriccion;
     private javax.swing.JTextArea taMensaje;
+    private javax.swing.JTextField tfCACSVName;
+    private javax.swing.JTextField tfCACorreo;
+    private javax.swing.JPasswordField tfCAPass;
     private javax.swing.JTextField tfCorreoPublicarAnuncios;
     private javax.swing.JPasswordField tfPassCrearAnuncio;
     private javax.swing.JTextField tfTitulo;
     // End of variables declaration//GEN-END:variables
+    String pathImagen = "";
 }
